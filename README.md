@@ -1,6 +1,6 @@
 ### Introduction
 
-Implement of QG model in the paper "Question Generation from SQL  Queries Improves Neural Semantic Parsing". This code is based on the repo, you can refer to more detail about API: https://github.com/tensorflow/nmt  
+Implement of QG model in the paper ["Question Generation from SQL  Queries Improves Neural Semantic Parsing"](https://www.aclweb.org/anthology/D18-1188). This code is based on the repo, you can refer to more detail about API: https://github.com/tensorflow/nmt  
 
 ### Requirements
 
