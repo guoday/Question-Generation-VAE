@@ -135,15 +135,13 @@ def get_iterator(
   # Convert the word strings to ids.  Word strings that are not in the
   # vocab get the lookup table's default_value integer.
   src_tgt_dataset = src_tgt_dataset.map(
-      lambda src, tgt,point,binary: (tf.cast(src_vocab_table.lookup(src), tf.int32),
-                        tf.cast(tgt_vocab_table.lookup(tgt), tf.int32)*(1-tf.cast(point_vacab.lookup(binary),tf.int32))+
-                               (point+tf.cast(tgt_vocab_table.size(),tf.int32))*tf.cast(point_vacab.lookup(binary),tf.int32),binary),
+      lambda src, tgt,point,binary: (tf.cast(src_vocab_table.lookup(src), tf.int32),tf.cast(tgt_vocab_table.lookup(tgt), tf.int32),tf.cast(tgt_vocab_table.lookup(tgt), tf.int32)*(1-tf.cast(point_vacab.lookup(binary),tf.int32))+                             (point+tf.cast(tgt_vocab_table.size(),tf.int32))*tf.cast(point_vacab.lookup(binary),tf.int32),binary),
       num_parallel_calls=num_parallel_calls).prefetch(output_buffer_size)
   # Create a tgt_input prefixed with <sos> and a tgt_output suffixed with <eos>.
   src_tgt_dataset = src_tgt_dataset.map(
-      lambda src, tgt,binary: (src,
-                        tf.concat(([tgt_sos_id], tgt), 0),
-                        tf.concat((tgt, [tgt_eos_id]), 0),
+      lambda src, tgt_in,tgt_out,binary: (src,
+                        tf.concat(([tgt_sos_id], tgt_in), 0),
+                        tf.concat((tgt_out, [tgt_eos_id]), 0),
                               tf.cast(point_vacab.lookup(binary),tf.int32)),
       num_parallel_calls=num_parallel_calls).prefetch(output_buffer_size)
   # Add in sequence lengths.
